@@ -342,7 +342,7 @@ SYMTAB_EXPORT bool Symbol::setVersions(std::vector<std::string> &vers)
    return true;
 }
 
-SYMTAB_EXPORT bool Symbol::getVersionFileName(std::string &fileName)
+SYMTAB_EXPORT bool Symbol::getVersionFileName(std::string& fileName) const
 {
    std::string *fn_p = NULL;
 
@@ -361,7 +361,7 @@ SYMTAB_EXPORT bool Symbol::getVersionFileName(std::string &fileName)
    return false;
 }
 
-SYMTAB_EXPORT bool Symbol::getVersions(std::vector<std::string> *&vers)
+SYMTAB_EXPORT bool Symbol::getVersions(std::vector<std::string>*& vers) const
 {
    std::vector<std::string> *vn_p = NULL;
 
@@ -420,10 +420,10 @@ std::ostream& Dyninst::SymtabAPI::operator<< (ostream &os, const Symbol &s)
                   << " }";
 }
 
-     Offset tryStart_;
-	       unsigned trySize_;
-		         Offset catchStart_;
-				       bool hasTry_;
+static Offset tryStart_;
+static unsigned trySize_;
+static Offset catchStart_;
+static bool hasTry_;
 
 ostream & Dyninst::SymtabAPI::operator<< (ostream &s, const ExceptionBlock &eb) 
 {
@@ -561,6 +561,6 @@ void Symbol::setReferringSymbol(Symbol* referringSymbol)
 	referring_= referringSymbol;
 }
 
-Symbol* Symbol::getReferringSymbol() {
+const Symbol* Symbol::getReferringSymbol() const {
 	return referring_;
 }

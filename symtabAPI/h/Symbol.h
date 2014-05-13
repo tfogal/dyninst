@@ -138,8 +138,8 @@ class SYMTAB_EXPORT Symbol : public Serializable,
                          unsigned s = 0,
                          bool d = false,
                          bool a = false,
-			 int index= -1,
-			 int strindex = -1,
+                         int index= -1,
+                         int strindex = -1,
                          bool cs = false);
    ~Symbol();
 
@@ -148,9 +148,9 @@ class SYMTAB_EXPORT Symbol : public Serializable,
    /***********************************************************
      Name Output Functions
     ***********************************************************/		
-   const std::string&      getMangledName () const;
-   const std::string&	 getPrettyName() const;
-   const std::string&      getTypedName() const;
+   const std::string& getMangledName () const;
+   const std::string&	getPrettyName() const;
+   const std::string& getTypedName() const;
 
    Module *getModule() const { return module_; } 
    Symtab *getSymtab() const;
@@ -182,7 +182,7 @@ class SYMTAB_EXPORT Symbol : public Serializable,
    int getStrIndex() const { return strindex_; }
    bool setStrIndex(int strindex) { strindex_ = strindex; return true; }
    void setReferringSymbol (Symbol *referringSymbol);
-   Symbol* getReferringSymbol ();
+   const Symbol* getReferringSymbol() const;
 
    //////////////// Modification
    bool setOffset (Offset newOffset);
@@ -206,8 +206,8 @@ class SYMTAB_EXPORT Symbol : public Serializable,
    bool  setVersionNum(unsigned verNum);
    void setVersionHidden() { versionHidden_ = true; }
 
-   bool  getVersionFileName(std::string &fileName);
-   bool  getVersions(std::vector<std::string> *&vers);
+   bool  getVersionFileName(std::string& fileName) const;
+   bool  getVersions(std::vector<std::string>*& vers) const;
    bool  getVersionNum(unsigned &verNum);
    bool  getVersionHidden() { return versionHidden_; }
 
@@ -216,7 +216,7 @@ class SYMTAB_EXPORT Symbol : public Serializable,
 
    public:
    static std::string emptyString;
-   int getInternalType() { return internal_type_; }
+   int getInternalType() const { return internal_type_; }
    void setInternalType(int i) { internal_type_ = i; }
 
    private:

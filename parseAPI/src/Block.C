@@ -39,8 +39,6 @@ using namespace Dyninst::InstructionAPI;
 using namespace Dyninst;
 using namespace Dyninst::ParseAPI;
 
-int HACKCOUNT = 0;
-
 Block::Block(CodeObject * o, CodeRegion *r, Address start) :
     _obj(o),
     _region(r),

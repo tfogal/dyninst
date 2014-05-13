@@ -257,7 +257,11 @@ SYMTAB_EXPORT bool Symbol::setSize(unsigned ns)
 
 SYMTAB_EXPORT bool Symbol::setRegion(const Region* r)
 {
-	*region_ = *r;
+	if(r) {
+		*region_ = *r;
+	} else {
+		region_ = NULL;
+	}
 	return true;
 }
 

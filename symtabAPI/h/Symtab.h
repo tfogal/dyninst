@@ -88,8 +88,6 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    friend class relocationEntry;
 
  public:
-
-
    /***** Public Member Functions *****/
    public:
    static void version(int& major, int& minor, int& maintenance);
@@ -99,16 +97,17 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
 
    Symtab(const Symtab& obj);
    Symtab(unsigned char *mem_image, size_t image_size, 
-                        const std::string &name, bool defensive_binary, bool &err);
+          const std::string &name, bool defensive_binary, bool &err);
 
    typedef enum {
       NotDefensive,
       Defensive} def_t; 
 
    static bool openFile(Symtab *&obj, std::string filename, 
-                                      def_t defensive_binary = NotDefensive);
+                        def_t defensive_binary = NotDefensive);
    static bool openFile(Symtab *&obj, void *mem_image, size_t size, 
-                                      std::string name, def_t defensive_binary = NotDefensive);
+                        std::string name,
+                        def_t defensive_binary = NotDefensive);
    static Symtab *findOpenSymtab(std::string filename);
    static bool closeSymtab(Symtab *);
 
@@ -125,9 +124,9 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool exportBin(std::string filename);
    static Symtab *importBin(std::string filename);
    bool getRegValueAtFrame(Address pc, 
-                                     Dyninst::MachRegister reg, 
-                                     Dyninst::MachRegisterVal &reg_result,
-                                     MemRegReader *reader);
+                           Dyninst::MachRegister reg,
+                           Dyninst::MachRegisterVal &reg_result,
+                           MemRegReader *reader);
    bool hasStackwalkDebugInfo();
 
    /**************************************
@@ -137,12 +136,12 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    // Symbol
 
    virtual bool findSymbol(std::vector<Symbol *> &ret, 
-                                         const std::string& name,
-                                         Symbol::SymbolType sType = Symbol::ST_UNKNOWN,
-                                         NameType nameType = anyName,
-                                         bool isRegex = false, 
-                                         bool checkCase = false,
-                                         bool includeUndefined = false);
+                           const std::string& name,
+                           Symbol::SymbolType sType = Symbol::ST_UNKNOWN,
+                           NameType nameType = anyName,
+                           bool isRegex = false,
+                           bool checkCase = false,
+                           bool includeUndefined = false);
 
    virtual bool getAllSymbols(std::vector<Symbol *> &ret);
    virtual bool getAllSymbolsByType(std::vector<Symbol *> &ret, 
@@ -158,12 +157,12 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool getAllDefinedSymbols(std::vector<Symbol *> &ret);
 
    // Function
-
    bool findFuncByEntryOffset(Function *&ret, const Offset offset);
-   bool findFunctionsByName(std::vector<Function *> &ret, const std::string name,
-                                          NameType nameType = anyName, 
-                                          bool isRegex = false,
-                                          bool checkCase = true);
+   bool findFunctionsByName(std::vector<Function *> &ret,
+                            const std::string name,
+                            NameType nameType = anyName,
+                            bool isRegex = false,
+                            bool checkCase = true);
    bool getAllFunctions(std::vector<Function *>&ret);
 
    //Searches for functions without returning inlined instances
@@ -173,21 +172,20 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
 
    // Variable
    bool findVariableByOffset(Variable *&ret, const Offset offset);
-   bool findVariablesByName(std::vector<Variable *> &ret, const std::string name,
-                                          NameType nameType = anyName, 
-                                          bool isRegex = false, 
-                                          bool checkCase = true);
+   bool findVariablesByName(std::vector<Variable *> &ret,
+                            const std::string name,
+                            NameType nameType = anyName,
+                            bool isRegex = false,
+                            bool checkCase = true);
    bool getAllVariables(std::vector<Variable *> &ret);
 
    // Module
-
    bool getAllModules(std::vector<Module *>&ret);
    bool findModuleByOffset(Module *&ret, Offset off);
    bool findModuleByName(Module *&ret, const std::string name);
    Module *getDefaultModule();
 
    // Region
-
    bool getCodeRegions(std::vector<Region *>&ret);
    bool getDataRegions(std::vector<Region *>&ret);
    bool getAllRegions(std::vector<Region *>&ret);
@@ -202,7 +200,7 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool findException(ExceptionBlock &excp,Offset addr);
    bool getAllExceptions(std::vector<ExceptionBlock *> &exceptions);
    bool findCatchBlock(ExceptionBlock &excp, Offset addr, 
-         unsigned size = 0);
+                       unsigned size = 0);
 
    // Relocation entries
    bool getFuncBindingTable(std::vector<relocationEntry> &fbt) const;
@@ -243,8 +241,9 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool addLine(std::string lineSource, unsigned int lineNo,
          unsigned int lineOffset, Offset lowInclAddr,
          Offset highExclAddr);
-   bool addAddressRange(Offset lowInclAddr, Offset highExclAddr, std::string lineSource,
-         unsigned int lineNo, unsigned int lineOffset = 0);
+   bool addAddressRange(Offset lowInclAddr, Offset highExclAddr,
+                        std::string lineSource,
+                        unsigned int lineNo, unsigned int lineOffset = 0);
    void setTruncateLinePaths(bool value);
    bool getTruncateLinePaths();
 
@@ -277,7 +276,7 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool isStaticBinary() const;
 
    /***** Write Back binary functions *****/
-   bool emitSymbols(Object *linkedFile, std::string filename, unsigned flag = 0);
+   bool emitSymbols(Object* linkedFile, std::string filename, unsigned flag=0);
    bool addRegion(Offset vaddr, void *data, unsigned int dataSize, 
          std::string name, Region::RegionType rType_, bool loadable = false,
          unsigned long memAlign = sizeof(unsigned), bool tls = false);

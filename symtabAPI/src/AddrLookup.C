@@ -137,6 +137,7 @@ bool AddressLookup::getOffset(Address addr, Symtab* &tab, Offset &off)
 }
 
 bool AddressLookup::getOffset(Address addr, LoadedLibrary &ll, Offset &off)
+const
 {
    LoadedLib *lib;
    bool result;
@@ -267,7 +268,7 @@ bool AddressLookup::getLoadAddresses(std::vector<LoadedLibrary> &name_addrs)
    return true;
 }
 
-Address AddressLookup::getLibraryTrapAddrSysV()
+Address AddressLookup::getLibraryTrapAddrSysV() const
 {
    return translator->getLibraryTrapAddrSysV();
 }
@@ -295,21 +296,21 @@ bool AddressLookup::getExecutable(LoadedLibrary &lib)
    return true;
 }
 
-Dyninst::Address AddressLookup::symToAddress(LoadedLib *ll, Symbol *sym)
-{
+Dyninst::Address
+AddressLookup::symToAddress(LoadedLib* ll, Symbol* sym) const {
    return ll->getCodeLoadAddr() + sym->getOffset();
 }
 
 LoadedLib *AddressLookup::getLoadedLib(Symtab *sym)
 {
-   std::map<Symtab *, LoadedLib *>::iterator i = sym_to_ll.find(sym);
-   if (i != sym_to_ll.end()) {
+   std::map<Symtab*, LoadedLib*>::const_iterator i = sym_to_ll.find(sym);
+   if (i != sym_to_ll.cend()) {
       return i->second;
    }
    
    vector<LoadedLib *> libs;
    translator->getLibs(libs);
-   for (vector<LoadedLib *>::iterator i = libs.begin(); i != libs.end(); i++) {
+   for(auto i = libs.cbegin(); i != libs.cend(); i++) {
       LoadedLib *ll = *i;
       if (sym->file() == ll->getName() || 
           sym->name() == ll->getName())
@@ -324,8 +325,8 @@ LoadedLib *AddressLookup::getLoadedLib(Symtab *sym)
 
 Symtab *AddressLookup::getSymtab(LoadedLib *ll)
 {
-   std::map<LoadedLib *, Symtab *>::iterator i = ll_to_sym.find(ll);
-   if (i != ll_to_sym.end()) {
+   std::map<LoadedLib *, Symtab *>::const_iterator i = ll_to_sym.find(ll);
+   if (i != ll_to_sym.cend()) {
       return i->second;
    }
    

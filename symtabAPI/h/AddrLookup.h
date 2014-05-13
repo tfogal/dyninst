@@ -60,7 +60,7 @@ class SYMTAB_EXPORT AddressLookup : public AnnotatableSparse
    std::map<LoadedLib *, Symtab *> ll_to_sym;
 
    LoadedLib *getLoadedLib(Symtab *sym);
-   Dyninst::Address symToAddress(LoadedLib *ll, Symbol *sym);
+   Dyninst::Address symToAddress(LoadedLib* ll, Symbol* sym) const;
    Symtab *getSymtab(LoadedLib *);
  public:
    static AddressLookup *createAddressLookup(ProcessReader *reader = NULL);
@@ -79,16 +79,15 @@ class SYMTAB_EXPORT AddressLookup : public AnnotatableSparse
 
    bool getLoadAddresses(std::vector<LoadedLibrary> &name_addrs);
    bool getExecutable(LoadedLibrary &lib);
-   bool getOffset(Address addr, LoadedLibrary &lib, Offset &off);
+   bool getOffset(Address addr, LoadedLibrary &lib, Offset &off) const;
 
    bool refresh();
 
-   Address getLibraryTrapAddrSysV();
+   Address getLibraryTrapAddrSysV() const;
    
    virtual ~AddressLookup();
 };
 
 }
 }
-
 #endif

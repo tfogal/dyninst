@@ -294,7 +294,7 @@ Function *Symtab::createFunction(std::string name,
                                  size_t sz,
                                  Module *mod)
 {
-    Region *reg = NULL;
+    Region* reg = NULL;
     
     if (!findRegion(reg, ".text") && !isDefensiveBinary()) {
         assert(0 && "could not find text region");

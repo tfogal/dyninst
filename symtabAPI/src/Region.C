@@ -105,11 +105,10 @@ Region& Region::operator=(const Region &reg)
     return *this;
 }
 
-bool Region::operator==(const Region &reg)
+bool Region::operator==(const Region &reg) const
 {
             //(rawDataPtr_ == reg.rawDataPtr_) &&
             //(buffer_ == reg.buffer_));
-
 	if (rels_.size() != reg.rels_.size()) return false;
 
 	for (unsigned int i = 0; i < rels_.size(); ++i)
@@ -131,7 +130,7 @@ bool Region::operator==(const Region &reg)
             (memAlign_ == reg.memAlign_));
 }
 
-ostream& Region::operator<< (ostream &os)
+ostream& Region::operator<< (ostream &os) const
 {
     return os   << "{"
                 << " Region Number="      << regNum_
@@ -147,8 +146,8 @@ ostream& Region::operator<< (ostream &os)
 
 Region::~Region() 
 {
-    if (buffer_)
-        free(buffer_);
+  free(buffer_);
+  buffer_ = NULL;
 }
 
 const char *Region::permissions2Str(perm_t p)
@@ -250,7 +249,7 @@ unsigned long Region::getDiskSize() const
     return diskSize_;
 }
 
-unsigned long Region::getFileOffset()
+unsigned long Region::getFileOffset() const
 {
     return fileOff_;
 }

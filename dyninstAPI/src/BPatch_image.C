@@ -1066,7 +1066,8 @@ bool BPatch_image::parseNewFunctions(BPatch_Vector<BPatch_module*> &affectedModu
         for (vector<Address>::iterator curEntry = funcEntryAddrs_.begin();
              curEntry != funcEntryAddrs_.end();) 
         {
-            Region *region = curSymtab->findEnclosingRegion(*curEntry-baseAddress);
+            const Region* region =
+              curSymtab->findEnclosingRegion(*curEntry-baseAddress);
             if (region) {
                 objEntries.push_back(*curEntry);
                 curEntry = funcEntryAddrs_.erase(curEntry);

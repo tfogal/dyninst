@@ -91,8 +91,8 @@ class SYMTAB_EXPORT Region : public AnnotatableSparse {
                 bool isTLS = false, unsigned long memAlign = sizeof(unsigned));
    Region(const Region &reg);
    Region& operator=(const Region &reg);
-   std::ostream& operator<< (std::ostream &os);
-   bool operator== (const Region &reg);
+   std::ostream& operator<< (std::ostream &os) const;
+   bool operator== (const Region &reg) const;
 
    ~Region();
 
@@ -102,7 +102,7 @@ class SYMTAB_EXPORT Region : public AnnotatableSparse {
 
    Offset getDiskOffset() const;
    unsigned long getDiskSize() const;
-   unsigned long getFileOffset();
+   unsigned long getFileOffset() const;
 
    Offset getMemOffset() const;
    unsigned long getMemSize() const;
@@ -125,7 +125,7 @@ class SYMTAB_EXPORT Region : public AnnotatableSparse {
    bool isDirty() const;
    std::vector<relocationEntry> &getRelocations();
    bool patchData(Offset off, void *buf, unsigned size);
-   bool isStandardCode();
+   bool isStandardCode() const;
 
    perm_t getRegionPermissions() const;
    bool setRegionPermissions(perm_t newPerms);

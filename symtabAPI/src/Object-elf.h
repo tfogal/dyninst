@@ -382,7 +382,7 @@ class Object : public AObject {
 	    return false;
 	}
 
-   Dyninst::Architecture getArch();
+   Dyninst::Architecture getArch() const;
 
 	bool is_offset_in_plt(Offset offset) const;
     Elf_X_Shdr *getRegionHdrByAddr(Offset addr);

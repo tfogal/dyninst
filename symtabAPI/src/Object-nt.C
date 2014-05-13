@@ -2301,13 +2301,13 @@ void Object::insertPrereqLibrary(std::string lib)
    ref[lib] = std::map<Offset, std::string>();
 }
 
- bool Region::isStandardCode()
+ bool Region::isStandardCode() const
 {
    return (getRegionPermissions() == RP_RX ||
            getRegionPermissions() == RP_RWX);
 }
 
-Dyninst::Architecture Object::getArch()
+Dyninst::Architecture Object::getArch() const
 {
    return Dyninst::Arch_x86;
 }

@@ -191,10 +191,11 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
    bool getAllRegions(std::vector<Region *>&ret);
    bool getAllNewRegions(std::vector<Region *>&ret);
    //  change me to use a hash
-   bool findRegion(Region *&ret, std::string regname);
-   bool findRegion(Region *&ret, const Offset addr, const unsigned long size);
+   bool findRegion(Region *&ret, std::string regname) const;
+   bool findRegion(Region *&ret, const Offset addr,
+                   const unsigned long size) const;
    bool findRegionByEntry(Region *&ret, const Offset offset);
-   Region *findEnclosingRegion(const Offset offset);
+   Region *findEnclosingRegion(const Offset offset) const;
 
    // Exceptions
    bool findException(ExceptionBlock &excp,Offset addr);
@@ -221,7 +222,7 @@ class SYMTAB_EXPORT Symtab : public LookupInterface,
 
    /*****Query Functions*****/
    bool isExec() const;
-   bool isStripped();
+   bool isStripped() const;
    ObjectType getObjectType() const;
    Dyninst::Architecture getArchitecture();
    bool isCode(const Offset where) const;

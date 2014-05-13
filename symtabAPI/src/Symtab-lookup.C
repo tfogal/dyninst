@@ -485,7 +485,7 @@ bool Symtab::findCatchBlock(ExceptionBlock &excp, Offset addr, unsigned size)
     }
 }
  
-bool Symtab::findRegionByEntry(Region *&ret, const Offset offset)
+bool Symtab::findRegionByEntry(Region*& ret, const Offset offset)
 {
     if(regionsByEntryAddr.find(offset) != regionsByEntryAddr.end())
     {
@@ -504,7 +504,7 @@ bool Symtab::findRegionByEntry(Region *&ret, const Offset offset)
  * have 0 address iff they are not loadable, but xcoff places loadable
  * sections at address 0, including .text and .data
  */
-Region *Symtab::findEnclosingRegion(const Offset where)
+Region *Symtab::findEnclosingRegion(const Offset where) const
 {
     int first = 0; 
     int last = regions_.size() - 1;
@@ -526,7 +526,7 @@ Region *Symtab::findEnclosingRegion(const Offset where)
     return NULL;
 }
 
-bool Symtab::findRegion(Region *&ret, const std::string secName)
+bool Symtab::findRegion(Region*& ret, const std::string secName) const
 {
     for(unsigned index=0;index<regions_.size();index++)
     {
@@ -541,8 +541,9 @@ bool Symtab::findRegion(Region *&ret, const std::string secName)
 }
 
 
-bool Symtab::findRegion(Region *&ret, const Offset addr, const unsigned long size)
-{
+bool
+Symtab::findRegion(Region *&ret, const Offset addr,
+                   const unsigned long size) const {
    ret = NULL;
    for(unsigned index=0;index<regions_.size();index++) {
       if(regions_[index]->getMemOffset() == addr && regions_[index]->getMemSize() == size) {
@@ -564,8 +565,6 @@ bool Symtab::findRegion(Region *&ret, const Offset addr, const unsigned long siz
 	    if (ret->getRegionType() == Region::RT_BSS) {
 	      ret = regions_[index];
 	    }
-
-
             serr = Multiple_Region_Matches;
             return false;
          }
@@ -579,8 +578,8 @@ bool Symtab::findRegion(Region *&ret, const Offset addr, const unsigned long siz
 
 ///////////////////////// REGEX //////////////////////
 
-// Use POSIX regular expression pattern matching to check if std::string s matches
-// the pattern in this std::string
+// Use POSIX regular expression pattern matching to check if
+// std::string s matches the pattern in this std::string
 bool regexEquiv( const std::string &str,const std::string &them, bool checkCase ) 
 {
    const char *str_ = str.c_str();
@@ -651,7 +650,7 @@ pattern_match( const char *p, const char *s, bool checkCase ) {
 
 struct Dyninst::SymtabAPI::SymbolCompareByAddr
 {
-    bool operator()(Function *a, Function *b)
+    bool operator()(Function *a, Function *b) const
     {
        return (a->offset_ < b->offset_);
     }
@@ -721,7 +720,7 @@ bool Symtab::parseFunctionRanges()
          next_addr = (*next)->getOffset();
       }
       else {
-         Region *region = findEnclosingRegion((*i)->getOffset());
+         const Region *region = findEnclosingRegion((*i)->getOffset());
          if (region) {
             next_addr = region->getMemOffset() + region->getMemSize(); 
          }

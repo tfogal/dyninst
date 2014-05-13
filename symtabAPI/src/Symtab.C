@@ -439,7 +439,7 @@ SYMTAB_EXPORT bool Symtab::isExec() const
     return is_a_out; 
 }
 
-SYMTAB_EXPORT bool Symtab::isStripped() 
+SYMTAB_EXPORT bool Symtab::isStripped() const
 {
 #if defined(os_linux) || defined(os_freebsd)
     Region *sec;

@@ -189,7 +189,7 @@ class SYMTAB_EXPORT Symbol : public Serializable,
    bool setPtrOffset (Offset newOffset);
    bool setLocalTOC (Offset localTOC);
    bool setSize(unsigned ns);
-   bool setRegion(Region *r);
+   bool setRegion(const Region* r);
    bool setModule(Module *mod);
 
    bool setMangledName(std::string name);

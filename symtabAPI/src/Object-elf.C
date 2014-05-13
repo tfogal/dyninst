@@ -5497,7 +5497,7 @@ bool Object::parse_all_relocations(Elf_X &elf, Elf_X_Shdr *dynsym_scnp,
     return true;
 }
 
-bool Region::isStandardCode()
+bool Region::isStandardCode() const
 {
    return ((getRegionPermissions() == RP_RX || getRegionPermissions() == RP_RWX) &&
            ((name_ == std::string(".text")) ||
@@ -5515,7 +5515,7 @@ bool Object::getTruncateLinePaths()
    return truncateLineFilenames;
 }
 
-Dyninst::Architecture Object::getArch()
+Dyninst::Architecture Object::getArch() const
 {
 #if defined(arch_power)
    if (getAddressWidth() == 4) {

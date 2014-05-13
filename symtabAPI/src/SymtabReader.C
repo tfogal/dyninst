@@ -217,7 +217,7 @@ Section_t SymtabReader::getSectionByName(std::string name)
 
 Section_t SymtabReader::getSectionByAddress(Dyninst::Address addr)
 {
-   Region *region = symtab->findEnclosingRegion(addr);
+   const Region *region = symtab->findEnclosingRegion(addr);
    Section_t ret;
    ret.v1 = (void *) region;
    return ret;
@@ -225,14 +225,14 @@ Section_t SymtabReader::getSectionByAddress(Dyninst::Address addr)
 
 Dyninst::Address SymtabReader::getSectionAddress(Section_t sec)
 {
-   Region *region = (Region *) sec.v1;
+   const Region *region = (Region *) sec.v1;
    assert(region);
    return region->getMemOffset();
 }
 
 std::string SymtabReader::getSectionName(Section_t sec)
 {
-   Region *region = (Region *) sec.v1;
+   const Region *region = (const Region *) sec.v1;
    assert(region);
    return region->getRegionName();
 }

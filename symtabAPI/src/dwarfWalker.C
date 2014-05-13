@@ -1358,7 +1358,7 @@ bool DwarfWalker::findFuncName() {
 bool DwarfWalker::getFrameBase() {
    dwarf_printf("(0x%lx) Checking for frame pointer information\n", id());
 
-   std::vector<VariableLocation> &funlocs = curFunc()->getFramePtrRefForInit();
+   std::vector<VariableLocation>& funlocs = curFunc()->getFramePtrRefForInit();
    if (!funlocs.empty()) {
       DWARF_CHECK_RET(false);
    }

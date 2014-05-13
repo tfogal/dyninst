@@ -86,21 +86,21 @@ class SYMTAB_EXPORT FunctionBase : public Aggregate
    Type  * getReturnType() const;
    
    /***** Local Variable Information *****/
-   bool findLocalVariable(std::vector<localVar *>&vars, std::string name);
-   bool getLocalVariables(std::vector<localVar *>&vars);
-   bool getParams(std::vector<localVar *>&params);
+   bool findLocalVariable(std::vector<localVar *>&vars, std::string name) const;
+   bool getLocalVariables(std::vector<localVar *>&vars) const;
+   bool getParams(std::vector<localVar *>&params) const;
 
-   bool operator==(const FunctionBase &);
+   bool operator==(const FunctionBase &) const;
 
-   FunctionBase *getInlinedParent();
-   const InlineCollection &getInlines();
+   FunctionBase *getInlinedParent() const;
+   const InlineCollection &getInlines() const;
    
    const FuncRangeCollection &getRanges();
    
    /***** Frame Pointer Information *****/
-   bool setFramePtr(std::vector<VariableLocation> *locs);
-   std::vector<VariableLocation> &getFramePtrRefForInit();
-   std::vector<VariableLocation> &getFramePtr();   
+   bool setFramePtr(std::vector<VariableLocation>* locs);
+   std::vector<VariableLocation>& getFramePtrRefForInit();
+   std::vector<VariableLocation>& getFramePtr();
 
    /***** Opaque data object pointers, usable by user ****/
    void *getData();
@@ -132,7 +132,7 @@ class SYMTAB_EXPORT FunctionBase : public Aggregate
    void *data;
 
    void expandLocation(const VariableLocation &loc,
-                       std::vector<VariableLocation> &ret);
+                       std::vector<VariableLocation> &ret) const;
 };
 
 class SYMTAB_EXPORT Function : public FunctionBase

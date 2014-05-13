@@ -102,7 +102,8 @@ bool FunctionBase::setReturnType(Type *newType)
    return true;
 }
 
-bool FunctionBase::findLocalVariable(std::vector<localVar *> &vars, std::string name)
+bool FunctionBase::findLocalVariable(std::vector<localVar *> &vars,
+                                     std::string name) const
 {
    module_->exec()->parseTypesNow();	
 
@@ -131,7 +132,7 @@ const FuncRangeCollection &FunctionBase::getRanges()
    return ranges;
 }
 
-bool FunctionBase::getLocalVariables(std::vector<localVar *> &vars)
+bool FunctionBase::getLocalVariables(std::vector<localVar *> &vars) const
 {
    module_->exec()->parseTypesNow();	
    if (!locals)
@@ -145,7 +146,7 @@ bool FunctionBase::getLocalVariables(std::vector<localVar *> &vars)
    return true;
 }
 
-bool FunctionBase::getParams(std::vector<localVar *> &params_)
+bool FunctionBase::getParams(std::vector<localVar *> &params_) const
 {
    module_->exec()->parseTypesNow();
    if (!params)
@@ -177,13 +178,13 @@ bool FunctionBase::addParam(localVar *param)
 	return true;
 }
 
-FunctionBase *FunctionBase::getInlinedParent()
+FunctionBase *FunctionBase::getInlinedParent() const
 {
    module_->exec()->parseTypesNow();	
    return inline_parent;
 }
 
-const InlineCollection &FunctionBase::getInlines()
+const InlineCollection &FunctionBase::getInlines() const
 {
    module_->exec()->parseTypesNow();	
    return inlines;
@@ -201,14 +202,15 @@ FunctionBase::~FunctionBase()
    }
 }
 
-std::vector<Dyninst::VariableLocation> &FunctionBase::getFramePtrRefForInit() {
+std::vector<Dyninst::VariableLocation>&
+FunctionBase::getFramePtrRefForInit() {
    if (inline_parent)
       return inline_parent->getFramePtr();
 
    return frameBase_;
 }
 
-std::vector<Dyninst::VariableLocation> &FunctionBase::getFramePtr() 
+std::vector<Dyninst::VariableLocation>& FunctionBase::getFramePtr()
 {
    if (inline_parent)
       return inline_parent->getFramePtr();
@@ -241,7 +243,7 @@ std::pair<std::string, Dyninst::Offset> InlinedFunction::getCallsite()
 }
 
 void FunctionBase::expandLocation(const VariableLocation &loc,
-                              std::vector<VariableLocation> &ret) {
+                                  std::vector<VariableLocation> &ret) const {
    // We are the frame base, so... WTF? 
 
    assert(loc.mr_reg != Dyninst::FrameBase);
@@ -275,8 +277,8 @@ void FunctionBase::expandLocation(const VariableLocation &loc,
    // This looks surprisingly similar to localVar's version...
    // Perhaps we should unify. 
 
-   std::vector<VariableLocation>::iterator i;
-   for (i = FDEs.begin(); i != FDEs.end(); i++) 
+   std::vector<VariableLocation>::const_iterator i;
+   for (i = FDEs.cbegin(); i != FDEs.cend(); i++)
    {
       Offset fdelowPC = i->lowPC;
       Offset fdehiPC = i->hiPC;
@@ -434,7 +436,7 @@ std::ostream &operator<<(std::ostream &os, const Dyninst::SymtabAPI::Function &f
 
 }
 
-bool FunctionBase::operator==(const FunctionBase &f)
+bool FunctionBase::operator==(const FunctionBase &f) const
 {
 	if (retType_ && !f.retType_)
 		return false;
@@ -446,7 +448,7 @@ bool FunctionBase::operator==(const FunctionBase &f)
 			return false;
 		}
 
-	return ((Aggregate &)(*this)) == ((const Aggregate &)f);
+	return ((const Aggregate&)(*this)) == ((const Aggregate&)f);
 }
 
 InlinedFunction::InlinedFunction(FunctionBase *parent) :

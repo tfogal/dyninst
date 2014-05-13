@@ -83,9 +83,9 @@ class SYMTAB_EXPORT Aggregate
       Symbol *getFirstSymbol() const;
 
       /***** Symbol naming *****/
-      const std::vector<std::string> &getAllMangledNames();
-      const std::vector<std::string> &getAllPrettyNames();
-      const std::vector<std::string> &getAllTypedNames();
+      const std::vector<std::string>& getAllMangledNames() const;
+      const std::vector<std::string>& getAllPrettyNames() const;
+      const std::vector<std::string>& getAllTypedNames() const;
 
       /***** Aggregate updating *****/
       virtual bool addMangledName(std::string name, bool isPrimary);
@@ -96,8 +96,7 @@ class SYMTAB_EXPORT Aggregate
       bool setSize(unsigned size);
       bool setOffset(unsigned offset);
       
-	  bool operator==(const Aggregate &a);
-
+	  bool operator==(const Aggregate &a) const;
 
    protected:
       bool removeSymbolInt(Symbol *sym);

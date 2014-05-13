@@ -103,18 +103,15 @@ Region * Aggregate::getRegion() const
    	return firstSymbol->getRegion();
 }
 
-const vector<std::string> &Aggregate::getAllMangledNames() 
-{
+const vector<std::string>& Aggregate::getAllMangledNames() const {
     return mangledNames_;
 }
 
-const vector<std::string> &Aggregate::getAllPrettyNames() 
-{
+const vector<std::string>& Aggregate::getAllPrettyNames() const {
     return prettyNames_;
 }
 
-const vector<std::string> &Aggregate::getAllTypedNames() 
-{
+const vector<std::string>& Aggregate::getAllTypedNames() const {
     return typedNames_;
 }
 
@@ -625,7 +622,7 @@ void Aggregate::serialize_aggregate(SerializerBase *, const char *) THROW_SPEC (
 {
 }
 #endif
-bool Aggregate::operator==(const Aggregate &a)
+bool Aggregate::operator==(const Aggregate &a) const
 {
 	if (mangledNames_.size() != a.mangledNames_.size()) return false;
 	if (prettyNames_.size() != a.prettyNames_.size()) return false;

@@ -264,7 +264,7 @@ void localVar::expandLocation(const VariableLocation &loc,
    // is corrupted data. 
    assert(func_);
 
-   std::vector<VariableLocation> &func_fp = func_->getFramePtr();
+   const std::vector<VariableLocation>& func_fp = func_->getFramePtr();
 
    //#define DEBUG
 
@@ -288,8 +288,8 @@ void localVar::expandLocation(const VariableLocation &loc,
    // Also, combine our frame offset with func_fp[...]'s frame
    // offset and use its register.
 
-   std::vector<VariableLocation>::iterator i;
-   for (i = func_fp.begin(); i != func_fp.end(); i++) 
+   std::vector<VariableLocation>::const_iterator i;
+   for (i = func_fp.cbegin(); i != func_fp.cend(); i++)
    {
       Offset fplowPC = i->lowPC;
       Offset fphiPC = i->hiPC;

@@ -1369,7 +1369,7 @@ image::image(fileDescriptor &desc,
    cs_ = new SymtabCodeSource(linkedFile,filt,parseInAllLoadableRegions);
 
    // Continue ParseAPI init
-   img_fact_ = new DynCFGFactory(this);
+   img_fact_.reset(new DynCFGFactory(this));
    parse_cb_ = new DynParseCallback(this);
    obj_ = new CodeObject(cs_,img_fact_,parse_cb_,BPatch_defensiveMode == mode);
 
@@ -1427,7 +1427,6 @@ image::~image()
 
     if(obj_) delete obj_;
     if(cs_) delete cs_;
-    if(img_fact_) delete img_fact_;
     if(parse_cb_) delete parse_cb_;
 
     if (linkedFile) { SymtabAPI::Symtab::closeSymtab(linkedFile); }

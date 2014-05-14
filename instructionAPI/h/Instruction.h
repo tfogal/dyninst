@@ -272,7 +272,6 @@ namespace Dyninst
             return m_Successors.end();
         }
       
-      
       typedef boost::shared_ptr<Instruction> Ptr;
 	public:
 	  //Should be private, but we're working around some compilers mis-using the 'friend' declaration.
@@ -290,7 +289,6 @@ namespace Dyninst
       Architecture arch_decoded_from;
       mutable std::list<CFT> m_Successors;
       static int numInsnsAllocated;
-      
     };
   };
 };

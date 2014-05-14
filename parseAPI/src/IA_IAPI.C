@@ -172,14 +172,15 @@ IA_IAPI::reset(
 
     allInsns.clear();
 
-    curInsnIter =
-        allInsns.insert(
-            allInsns.end(),
-            std::make_pair(current, dec.decode()));
+    curInsnIter = allInsns.insert(allInsns.end(),
+                                  std::make_pair(current, dec.decode()));
 
     initASTs();
 }
 
+IA_IAPI::~IA_IAPI() {
+  allInsns.clear();
+}
 
 void IA_IAPI::advance()
 {

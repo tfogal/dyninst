@@ -41,9 +41,10 @@ using namespace Dyninst::ParseAPI;
 
 namespace {
     // initialization help
-    static inline CFGFactory * __fact_init(CFGFactory * fact) {
+    static inline std::shared_ptr<CFGFactory>
+    _fact_init(std::shared_ptr<CFGFactory> fact) {
         if(fact) return fact;
-        return new CFGFactory();
+        return std::shared_ptr<CFGFactory>(new CFGFactory);
     }
 }
 
@@ -60,14 +61,13 @@ void CodeObject::version(int& major, int& minor, int& maintenance)
 
 
 CodeObject::CodeObject(CodeSource *cs, 
-                       CFGFactory *fact, 
+                       std::shared_ptr<CFGFactory> fact,
                        ParseCallback * cb, 
                        bool defMode) :
     _cs(cs),
-    _fact(__fact_init(fact)),
+    _fact(_fact_init(fact)),
     _pcb(new ParseCallbackManager(cb)),
     parser(new Parser(*this,*_fact,*_pcb) ),
-    owns_factory(fact == NULL),
     defensive(defMode),
     flist(parser->sorted_funcs)
 {
@@ -97,11 +97,11 @@ CodeObject::process_hints()
 }
 
 CodeObject::~CodeObject() {
-    if(owns_factory)
-        delete _fact;
+    _fact.reset();
     delete _pcb;
-    if(parser)
-        delete parser;
+    _pcb = NULL;
+    delete parser;
+    parser = NULL;
 }
 
 Function *
@@ -270,7 +270,7 @@ CodeObject::parseNewEdges( vector<NewEdgeToParse> & worklist )
 
     parser->_pcb.batch_begin(); // must batch callbacks and deliver after parsing structures are stable
     parser->parse_edges( work_elems );
-    parser->_pcb.batch_end(_fact);
+    parser->_pcb.batch_end(_fact.get());
 
     if (defensiveMode()) {
         // update tampersStack for modified funcs
@@ -323,7 +323,7 @@ void CodeObject::startCallbackBatch() {
 }
 
 void CodeObject::finishCallbackBatch() {
-   _pcb->batch_end(_fact);
+   _pcb->batch_end(_fact.get());
 }
 
 void CodeObject::destroy(Edge *e) {
@@ -332,17 +332,17 @@ void CodeObject::destroy(Edge *e) {
    // its freed.
    // We hand in a CFGFactory so that we have customized
    // deletion methods.
-   _pcb->destroy(e, _fact);
+   _pcb->destroy(e, _fact.get());
 }
 
 void CodeObject::destroy(Block *b) {
    parser->remove_block(b);
-   _pcb->destroy(b, _fact);
+   _pcb->destroy(b, _fact.get());
 }
 
 void CodeObject::destroy(Function *f) {
    parser->remove_func(f);
-   _pcb->destroy(f, _fact);
+   _pcb->destroy(f, _fact.get());
 }
 
 void CodeObject::registerCallback(ParseCallback *cb) {

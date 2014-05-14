@@ -128,7 +128,7 @@ class PARSER_EXPORT CFGFactory {
     
     Block *_mksink(CodeObject *obj, CodeRegion *r);
 
-    void destroy_func(Function *f);
+    void destroy_func(Function *f) const;
     void destroy_block(Block *b);
     void destroy_edge(Edge *e);
 
@@ -149,7 +149,7 @@ class PARSER_EXPORT CFGFactory {
      */
     virtual Block * mksink(CodeObject *obj, CodeRegion *r);
 
-    virtual void free_func(Function * f);
+    virtual void free_func(Function * f) const;
     virtual void free_block(Block * b);
     virtual void free_edge(Edge * e);
 

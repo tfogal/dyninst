@@ -196,10 +196,14 @@ SymtabCodeSource::~SymtabCodeSource()
 {
     _have_stats = false;
     delete stats_parse;
-    if(owns_symtab && _symtab)
+    stats_parse = nullptr;
+    if(owns_symtab && _symtab) {
         SymtabAPI::Symtab::closeSymtab(_symtab);
-    for(unsigned i=0;i<_regions.size();++i)
+    }
+    for(unsigned i=0;i<_regions.size();++i) {
         delete _regions[i];
+    }
+    _regions.clear();
 }
 
 SymtabCodeSource::SymtabCodeSource(SymtabAPI::Symtab * st, 

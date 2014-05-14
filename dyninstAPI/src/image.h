@@ -499,7 +499,7 @@ class image : public codeRange {
    Dyninst::ParseAPI::CodeObject * obj_;
    Dyninst::ParseAPI::SymtabCodeSource * cs_;
    Dyninst::ParseAPI::SymtabCodeSource::hint_filt *filt;
-   DynCFGFactory * img_fact_;
+   std::shared_ptr<DynCFGFactory> img_fact_;
    DynParseCallback * parse_cb_;
    void *cb_arg0_; // argument for mapped_object callback
 

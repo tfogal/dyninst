@@ -61,8 +61,8 @@ class IA_IAPI : public InstructionAdapter {
 		IA_IAPI(const IA_IAPI &); 
 		IA_IAPI &operator=(const IA_IAPI &r);
 
-		virtual ~IA_IAPI() {
-        }
+		virtual ~IA_IAPI();
+
         void reset(Dyninst::InstructionAPI::InstructionDecoder dec_,
           Address start, ParseAPI::CodeObject *o,
           ParseAPI::CodeRegion *r, InstructionSource *isrc, ParseAPI::Block *);
@@ -132,10 +132,9 @@ private:
          * - (super)->current = curInsnIter->first
          */
 public:
-        typedef std::vector< 
-            std::pair<Address, 
-            Dyninst::InstructionAPI::Instruction::Ptr> 
-        > allInsns_t;
+        typedef std::vector<std::pair<Address,
+                                      Dyninst::InstructionAPI::Instruction::Ptr>
+                           > allInsns_t;
 private:
         allInsns_t allInsns;
         Dyninst::InstructionAPI::Instruction::Ptr curInsn() const;
@@ -158,6 +157,4 @@ private:
 
 }
 }
-
-
 #endif // !defined(IA_IAPI_H)

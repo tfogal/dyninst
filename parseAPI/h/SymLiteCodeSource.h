@@ -38,7 +38,6 @@
 
 #include "CodeSource.h"
 
-
 namespace Dyninst {
 namespace ParseAPI {
 
@@ -129,7 +128,6 @@ class SymReaderCodeSource : public CodeSource {
     void decrementCounter(const std::string& name) const;
 
  private:
-
     CodeRegion * lookup_region(const Address addr) const;
     void removeRegion(CodeRegion &); // removes from region tree
 
@@ -139,11 +137,8 @@ class SymReaderCodeSource : public CodeSource {
     
     // statistics
     bool init_stats();
-    
- 
 };
 
 }
 }
-
 #endif 

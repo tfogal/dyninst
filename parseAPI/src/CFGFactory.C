@@ -143,13 +143,13 @@ CFGFactory::mkedge(Block * src, Block * trg, EdgeTypeEnum type) {
     return ret;
 }
 
-void CFGFactory::destroy_func(Function *f) {
+void CFGFactory::destroy_func(Function *f) const {
    f->remove();
    free_func(f);
 }
 
 void
-CFGFactory::free_func(Function *f) {
+CFGFactory::free_func(Function *f) const {
     delete f;
 }
 
@@ -172,7 +172,7 @@ CFGFactory::destroy_edge(Edge *e) {
 
 void
 CFGFactory::free_edge(Edge *e) {
-   delete e;
+    delete e;
 }
 
 void
@@ -185,14 +185,19 @@ CFGFactory::destroy_all() {
         fact_list<Edge>::iterator cur = eit++;
         destroy_edge(&*cur);
     }
+    edges_.clear();
+
     fact_list<Block>::iterator bit = blocks_.begin();
     while(bit != blocks_.end()) {
         fact_list<Block>::iterator cur = bit++;
         destroy_block(&*cur);
     }
+    blocks_.clear();
+
     fact_list<Function>::iterator fit = funcs_.begin();
     while(fit != funcs_.end()) {
         fact_list<Function>::iterator cur = fit++;
         destroy_func(&*cur);
     }
+    funcs_.clear();
 }

@@ -134,11 +134,11 @@ namespace Dyninst
     
     INSTRUCTION_EXPORT Instruction::~Instruction()
     {
-
       if(m_size > sizeof(m_RawInsn.small_insn))
       {
-	delete[] m_RawInsn.large_insn;
+        delete[] m_RawInsn.large_insn;
       }
+      m_RawInsn.large_insn = nullptr;
 #if defined(DEBUG_INSN_ALLOCATIONS)
       numInsnsAllocated--;
       if((numInsnsAllocated % 1000) == 0)

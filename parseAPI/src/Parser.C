@@ -122,12 +122,13 @@ ParseFrame::~ParseFrame()
 
 Parser::~Parser()
 {
-    if(_parse_data)
-        delete _parse_data;
+    delete _parse_data;
+    _parse_data = NULL;
 
     vector<ParseFrame *>::iterator fit = frames.begin();
-    for( ; fit != frames.end(); ++fit) 
+    for( ; fit != frames.end(); ++fit) {
         delete *fit;
+    }
     frames.clear();
 }
 
@@ -790,8 +791,7 @@ void ParseFrame::cleanup()
     for(unsigned i=0;i<work_bundles.size();++i)
         delete work_bundles[i];
     work_bundles.clear();
-    if(seed)
-        delete seed;
+    delete seed;
     seed = NULL;
 }
 

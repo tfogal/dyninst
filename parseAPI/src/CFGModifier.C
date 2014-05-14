@@ -302,7 +302,7 @@ bool CFGModifier::remove(vector<Block*> &blks, bool force) {
       rd->blocksByAddr.erase(b->start());
 
       // 5)
-      CFGFactory *fact = b->obj()->fact();
+      CFGFactory* fact = b->obj()->fact();
       for (vector<Edge*>::iterator eit = deadEdges.begin(); eit != deadEdges.end(); eit++) {
           pcb->destroy(*eit, fact);
       }

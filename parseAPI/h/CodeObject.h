@@ -32,6 +32,7 @@
 #define CODE_OBJECT_H
 
 #include <map>
+#include <memory>
 
 #include "Symtab.h"
 #include "IBSTree.h"
@@ -62,7 +63,7 @@ class CodeObject {
     typedef std::set<Function*,Function::less> funclist;
 
     PARSER_EXPORT CodeObject(CodeSource * cs, 
-                             CFGFactory * fact = NULL, 
+                             std::shared_ptr<CFGFactory> fact = NULL,
                              ParseCallback * cb = NULL,
                              bool defensiveMode = false);
     PARSER_EXPORT ~CodeObject();
@@ -112,7 +113,7 @@ class CodeObject {
 
     /* Misc */
     PARSER_EXPORT CodeSource * cs() const { return _cs; }
-    PARSER_EXPORT CFGFactory * fact() const { return _fact; }
+    PARSER_EXPORT CFGFactory* fact() const { return _fact.get(); }
     PARSER_EXPORT bool defensiveMode() { return defensive; }
 
     PARSER_EXPORT bool isIATcall(Address insn, std::string &calleeName);
@@ -158,12 +159,11 @@ class CodeObject {
 
   private:
     CodeSource * _cs;
-    CFGFactory * _fact;
+    std::shared_ptr<CFGFactory> _fact;
     ParseCallbackManager * _pcb;
 
     Parser * parser; // parser implementation
 
-    bool owns_factory;
     bool defensive;
     funclist& flist;
 };
